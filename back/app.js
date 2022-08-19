@@ -1,7 +1,13 @@
 const express = require('express');
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
+const path = require("path");
 const app = express();
+
+//Import des routes
+const likeRoutes = require("./routes/likeroutes");
+const postRoutes = require("./routes/postroutes");
+const userRoutes = require("./routes/userroutes");
 
 //Connection à la base de donnée MongoDB
 mongoose
@@ -26,23 +32,15 @@ app.use((req, res, next) => {
   next();
 });
 
-app.use((req, res, next) => {
-  console.log('Requête reçue !');
-  next();
-});
+//Rendre la requete exploitable
+app.use(bodyParser.json());
 
-app.use((req, res, next) => {
-  res.status(201);
-  next();
-});
+//Routes attendues
+app.use("/api/users", userRoutes);
+app.use("/api/post", postRoutes);
+app.use("/api/like", likeRoutes);
 
-app.use((req, res, next) => {
-  res.json({ message: 'Votre requête a bien été reçue !' });
-  next();
-});
-
-app.use((req, res, next) => {
-  console.log('Réponse envoyée avec succès !');
-});
+//Gestion de la ressource image de façon statique
+app.use("/images", express.static(path.join(__dirname, "images")));
 
 module.exports = app;
