@@ -2,7 +2,7 @@
 const fs = require('fs');
 
 //Import du modele du post
-const post = require("../models/postmodel");
+const post = require("../models/post.model");
 
 //Création d'un post
 exports.create = (req, res, next) => {

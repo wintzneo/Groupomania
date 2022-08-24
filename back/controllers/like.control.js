@@ -1,5 +1,5 @@
 //Import du modele du post
-const post = require("../models/likemodel");
+const post = require("../models/like.model");
 
 //Aimer le post
 exports.likePost = (req, res, next) => {

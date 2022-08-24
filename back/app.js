@@ -5,9 +5,9 @@ const path = require("path");
 const app = express();
 
 //Import des routes
-const likeRoutes = require("./routes/likeroutes");
-const postRoutes = require("./routes/postroutes");
-const userRoutes = require("./routes/userroutes");
+const likeRoutes = require("./routes/like.routes");
+const postRoutes = require("./routes/post.routes");
+const userRoutes = require("./routes/user.routes");
 
 //Connection à la base de donnée MongoDB
 mongoose

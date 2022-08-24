@@ -9,4 +9,4 @@ const postSchema = mongoose.Schema ({
     image: {type: String, required: true},
 });
 
-module.exports = mongoose.model('post', postSchema);
+module.exports = mongoose.model('post.control', postSchema);

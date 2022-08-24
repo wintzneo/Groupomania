@@ -9,4 +9,4 @@ const likeSchema = mongoose.Schema ({
     usersDisliked: {type: [String], required: false},
 });
 
-module.exports = mongoose.model('likecontrol', likeSchema);
+module.exports = mongoose.model('like.control', likeSchema);
