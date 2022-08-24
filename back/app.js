@@ -5,7 +5,6 @@ const path = require("path");
 const app = express();
 
 //Import des routes
-const likeRoutes = require("./routes/like.routes");
 const postRoutes = require("./routes/post.routes");
 const userRoutes = require("./routes/user.routes");
 
@@ -38,7 +37,6 @@ app.use(bodyParser.json());
 //Routes attendues
 app.use("/api/users", userRoutes);
 app.use("/api/post", postRoutes);
-app.use("/api/like", likeRoutes);
 
 //Gestion de la ressource image de façon statique
 app.use("/images", express.static(path.join(__dirname, "images")));

@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const post = require('../controllers/postcontrol');
+const post = require('../controllers/post.control');
 
 //Import du middleware auth pour sécuriser les routes
 const auth = require('../middleware/auth');
@@ -14,5 +14,6 @@ router.delete('/:id', auth, post.delete);
 router.post('/', auth, multer, post.create);
 router.get('/', auth, post.list);
 router.get('/:id', auth, post.OnePost);
+router.post('/:id/like', auth, post.likePost);
 
 module.exports = router;

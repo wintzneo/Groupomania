@@ -6,7 +6,7 @@ const userSchema = mongoose.Schema ({
     //L'email doit être unique
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    isAdmin: { type: String, required: true}
+    isAdmin: { type: Boolean, required: true, unique: true, default: 0}
 });
 
 //Plugin pour garantir un email unique
