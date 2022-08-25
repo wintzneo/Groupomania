@@ -3,6 +3,7 @@ const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
 const app = express();
+const cors = require('cors')
 
 //Import des routes
 const postRoutes = require("./routes/post.routes");
@@ -18,18 +19,7 @@ mongoose
   .catch(() => console.log("Connexion à MongoDB échouée !"));
   
 //Header pour contourner erreurs de CORS
-app.use((req, res, next) => {
-  res.setHeader("Access-Control-Allow-Origin", "*");
-  res.setHeader(
-    "Access-Control-Allow-Headers",
-    "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
-  );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
-  next();
-});
+app.use(cors())
 
 //Rendre la requete exploitable
 app.use(bodyParser.json());
