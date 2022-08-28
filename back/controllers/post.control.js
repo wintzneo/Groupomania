@@ -2,28 +2,29 @@
 const fs = require("fs");
 
 //Import du modele du post
-const post = require("../models/post.model");
+const Post = require("../models/post.model");
 
 //Création d'un post
 exports.create = (req, res, next) => {
-  const postObject = JSON.parse(req.body.post);
-  const post = new Post({
-    ...postObject,
-    imageUrl: `${req.protocol}://${req.get("host")}/images/${
-      req.file.filename
-    }`,
-  });
-  post
-    .save()
-    .then((post) => {
-      res.status(201).json({ post });
-    })
-    .catch((error) => {
-      res.status(400).json({
-        error: error,
-      });
-    });
-};
+  const postObject  = req.body;
+  if(req.file){
+      Post.create({
+          ...postObject,
+          imageUrl:`${req.protocol}://${req.get("host")}/images/${req.file.filename}`
+      })
+      .then(postObject => res.status(201).json("Publication créée avec succés"))
+      .catch(e => res.status(500).json(e))
+  }
+  else if(!req.file){
+      Post.create({
+          ...postObject,
+          imageUrl:`${req.protocol}://${req.get("host")}/images/pt.jpg`
+      })
+      .then(postObject => res.status(201).json("Publication créée avec succés"))
+      .catch(e => res.status(500).json(e))
+  }
+}
+
 
 //Modification d'un post
 exports.update = (req, res, next) => {
@@ -67,9 +68,9 @@ exports.update = (req, res, next) => {
 
 //Récupération de tout les postes
 exports.list = (req, res, next) => {
-  Postes.find()
-    .then((postes) => {
-      res.status(200).json(postes);
+  Post.find()
+    .then((post) => {
+      res.status(200).json(post);
     })
     .catch((error) => {
       res.status(400).json({
@@ -106,6 +107,19 @@ exports.delete = (req, res, next) => {
     })
     .catch((error) => res.status(500).json({ error }));
 };
+
+
+//Supprimer un post
+/*exports.delete = (req, res, next) => {
+  Post.findOne({ _id: req.params.id })
+    .then((post) => {
+
+        Post.deleteOne({ _id: req.params.id })
+          .then(() => res.status(200).json({ message: "Poste supprimé !" }))
+          .catch((error) => res.status(400).json({ error }));
+      });
+    }
+;*/
 
 //Liker un post
 exports.likePost = (req, res, next) => {

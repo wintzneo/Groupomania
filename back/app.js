@@ -26,7 +26,7 @@ app.use(bodyParser.json());
 
 //Routes attendues
 app.use("/api/users", userRoutes);
-app.use("/api/post", postRoutes);
+app.use("/api/posts", postRoutes);
 
 //Gestion de la ressource image de façon statique
 app.use("/images", express.static(path.join(__dirname, "images")));
