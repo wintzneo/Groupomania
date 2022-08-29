@@ -1,0 +1,81 @@
+.container-connect {
+    margin-top: 6rem;
+  }
+  
+  .connexion-page {
+    display: flex;
+    align-items: center;
+    h2 {
+      font-size: 4rem;
+      color: $colorPrim;
+      margin-left: 3rem;
+      span {
+        color: rgb(207, 9, 9)
+      }
+    }
+    .connectionForm {
+      @include containerStyle;
+      @include glassmorphism;
+      ul {
+        display: flex;
+        justify-content: center;
+        li {
+          margin: 2rem 0.4rem 1.5rem;
+          @include buttonStyle;
+  
+          &:hover {
+            @include hover;
+          }
+        }
+      }
+      .active-btn {
+        background: $color;
+      }
+    }
+  }
+  
+  // **************** MediaQueries *******************
+  
+  @media all and (max-width: 1140px) {
+    .connexion-page {
+      h2 {
+        display: none;
+      }
+  }
+  }
+  
+  @media all and (max-width: 606px) {
+    .connexion-page {
+      .connectionForm {
+        width: 25rem;
+      }
+    }
+    
+  }
+  
+  @media all and (max-width: 436px) {
+    .connexion-page {
+      .connectionForm {
+        width: 20rem;
+      }
+    }
+  
+  }
+  
+  @media all and (max-width: 344px) {
+    .connexion-page{
+      .connectionForm {
+        width: 18rem;
+        ul {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          align-items: center;
+          li {
+            margin: 1rem 0 0.2rem 0;
+          }
+        }
+      }
+    }
+  
+  }

@@ -1,0 +1,39 @@
+#sign-form {
+    text-align: center;
+    margin-top: 1.5rem;
+    input {
+        border-radius: 1rem;
+       border: 1px solid $colorSec;
+        height: 2rem;
+        width: 14rem; 
+        padding-left: 1rem;
+    }
+    .email-error, .password-error, .pseudo-error{
+        color: rgb(146, 5, 5);
+    }
+    #button {
+        @include buttonStyle;
+        margin-bottom: 2rem;
+        padding: 0;
+        &:hover {
+            @include hover;
+        }
+    }
+    .alert-success {
+        background: rgba(33, 223, 33, 0.192);
+        width: 70%;
+        margin: auto;
+        margin-bottom: 1rem;
+        border-radius: 1rem;
+        padding: .5rem;
+    }
+}
+.errorGeneral {
+    color: rgba(190, 3, 3, 0.699);
+    margin-top: -1rem;
+    margin-bottom: .5rem;
+}
+
+.error {
+    color: rgba(190, 3, 3, 0.699);
+}

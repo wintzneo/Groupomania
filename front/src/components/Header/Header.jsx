@@ -10,14 +10,6 @@ const Header = () => {
           <img src={Logo} alt="logo Groupomania" />
         </NavLink>
       </div>
-      <div className="nav">
-        <NavLink
-          to="/"
-          className={(nav) =>
-            nav.isActive ? 'nav-active nav_home' : 'nav_home'
-          }
-        ></NavLink>
-      </div>
     </div>
   )
 }

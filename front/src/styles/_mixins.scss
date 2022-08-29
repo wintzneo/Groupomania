@@ -2,3 +2,29 @@
   transition: all 0.8s 0s ease;
   transform: scale(1.1);
 }
+
+@mixin glassmorphism {
+  background: rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(16.5px);
+  -webkit-backdrop-filter: blur(16.5px);
+  border-radius: 1rem;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@mixin containerStyle {
+  border-radius: 1.5rem;
+  width: 35rem;
+  margin: auto;
+  margin-top: 4rem;
+}
+
+@mixin buttonStyle {
+  padding: .7rem;
+  background: $colorPrim;
+  border-radius: 1.5rem;
+  -webkit-box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+  box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+  cursor: pointer;
+  border: none;
+}
