@@ -1,0 +1,68 @@
+.post {
+    @include glassmorphism;
+    width: 50%;
+    margin: 2rem auto;
+    margin-top: 7rem;
+    p {
+        color: $colorPrim;
+        text-align: center;
+        margin-top: 1rem;
+    }
+  form {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    margin: auto;
+    #title {
+        height: 4rem;
+        padding: 1rem ;
+        border-radius: 1rem;
+        margin: 1rem 0 .5rem 0;
+        resize : none;
+    }
+    #content {
+        height: 6rem;
+        padding: 1rem ;
+        border-radius: 1rem;
+        resize : none;
+    }
+    #image {
+        margin: .5rem auto;
+    }
+    #button {
+        @include buttonStyle;
+        margin: 1.3rem auto;
+        &:hover {
+            @include hover;
+        }
+    }
+    .error-title, .error-content {
+        color: rgba(204, 9, 9, 0.589);
+        text-align: center;
+    }
+    .error-title {
+        margin-top: -0.5rem;
+    }
+  }
+}
+
+
+
+// ******************** MediaQueries **************
+
+@media all and (max-width: 1180px) {
+    .post {
+        width: 80%;
+  }
+}
+
+
+
+@media all and (max-width: 760px) {
+    .post {
+        width: 90%;
+        form {
+            width: 90%;
+        }
+  }
+}

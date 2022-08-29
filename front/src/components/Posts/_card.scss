@@ -1,0 +1,127 @@
+.alert-success {
+    width: 50%;
+    margin: 1rem auto;
+}
+
+.card {
+    @include glassmorphism;
+    width: 50%;
+    margin: auto;
+    margin-bottom: 2rem;
+    color: $colorPrim;
+    .info {
+        display: flex;
+        align-items: center;
+        padding: 1rem;
+        img {
+            width: 3rem;
+            height: 3rem;
+            border-radius: 5rem;
+            object-fit: cover;
+        }
+        .username_btnDelete {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .username {
+                margin-left: .7rem;
+            }
+            .delete-button {
+                font-size: 1.2rem;
+                cursor: pointer;
+                &:hover {
+                    @include hover;
+                }
+            }
+        }
+    }
+    h2 {
+        font-size: 1rem;
+    }
+        .post_content {
+            background: rgba(168, 167, 167, 0.068);
+            border-radius: 1rem;
+            margin: 0 1rem 1rem 1rem;
+            padding: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            h2 {
+                text-decoration: underline;
+            }
+            .content {
+                margin-bottom: 1rem;
+            }
+            img {
+                width: 50%;
+                object-fit: cover;
+                border-radius: 1rem;
+            }
+        }
+        .dateAndHour {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            color: $colorPrim;
+            opacity: .5;
+            font-size: .7rem;
+            margin-top: 1.2rem;
+            span {
+                font-size: .8rem;
+                margin-right: .3rem;
+            }
+            .date {
+                margin-right: .4rem;
+            }
+            .hour {
+                margin-right: 1rem;
+            }
+        }
+        .like_and_comment {
+            display: flex;
+            margin-bottom: 1rem;
+        }
+}
+
+.scrollTop {
+    color: $colorPrim;
+    font-size: 2.7rem;
+    cursor: pointer;
+    margin: 0 0 2rem 1.5rem;
+}
+
+
+// ******************** MediaQueries **************
+
+@media all and (max-width: 1180px) {
+    .alert-success {
+        width: 80%;
+    }
+    .card {
+        width: 80%;
+  }
+}
+
+
+@media all and (max-width: 760px) {
+    .alert-success {
+        width: 90%;
+    }
+    .card {
+        width: 90%;
+  }
+}
+
+@media all and (max-width: 520px) {
+    .card {
+        .post_content {
+
+            img {
+    
+                width: 100%;
+            }
+        }
+    }
+}
