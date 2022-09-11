@@ -1,19 +1,21 @@
 const express = require("express");
 const router = express.Router();
+
 const post = require('../controllers/post.control');
 
-//Import du middleware auth pour sécuriser les routes
-const auth = require('../middleware/auth');
 //Import du middleware multer pour la gestion des images
 const multer = require('../middleware/multer-config');
 
-//router.post('/', auth, post.ANALYSE);
-router.put('/:id', auth, multer, post.update)
-router.delete('/:id', auth, post.delete);
+const likePost = require('./like.routes')
 
-router.post('/', auth, multer, post.create);
-router.get('/', auth, post.list);
-router.get('/:id', auth, post.OnePost);
-router.post('/:id/like', auth, post.likePost);
+//router.post('/', auth, post.ANALYSE);
+router.post('/', multer, post.create);
+
+router.get('/',  post.list);
+router.get('/:id',  post.OnePost);
+
+router.delete('/:id', post.delete);
+
+router.use('/:postId/like', likePost);
 
 module.exports = router;

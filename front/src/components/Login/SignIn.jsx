@@ -30,10 +30,15 @@ const SignIn = () => {
   const handleLogin = useCallback(
     async (data) => {
       try {
-        const res = await axios.post('http://localhost:4200/api/users/login',data)
+        const res = await axios.post(
+          'http://localhost:4200/api/users/login',
+          data
+        )
         const token = await res.data.data.token
+        const user = await res.data.data.username
         const userId = await res.data.data.id
         localStorage.setItem('token', token)
+        localStorage.setItem('username', user)
         localStorage.setItem('userId', userId)
         navigate('/')
       } catch (error) {

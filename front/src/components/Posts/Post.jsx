@@ -1,26 +1,25 @@
-import axios from "axios";
-/* eslint-disable */
-import React, { useCallback, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
+import axios from 'axios'
+import React, { useCallback, useRef } from 'react'
+import { useForm } from 'react-hook-form'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from 'yup'
 
 // Schema YUP
 const schema = yup.object({
   title: yup
     .string()
-    .min(1, "Veuillez remplir le champ")
-    .max(25, "Pas plus de 25 caractères")
+    .min(1, 'Veuillez remplir le champ')
+    .max(25, 'Pas plus de 25 caractères')
     .required(),
   content: yup
     .string()
-    .min(1, "Veuillez remplir le champ")
-    .max(200, "Pas plus de 200 caractères")
+    .min(1, 'Veuillez remplir le champ')
+    .max(200, 'Pas plus de 200 caractères')
     .required(),
-});
+})
 
-const Post = ({ refetch }) => {
-  const inputFileRef = useRef();
+const PostOnePost = ({ refetch }) => {
+  const inputFileRef = useRef()
 
   const {
     register,
@@ -30,43 +29,43 @@ const Post = ({ refetch }) => {
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   // post one post
   const handlePost = useCallback(
     async (data) => {
-      const file = inputFileRef.current.files[0];
+      const file = inputFileRef.current.files[0]
 
       if (!file) {
-        setError("image", "Requis");
+        setError('image', 'Requis')
       }
-      const formData = new FormData();
-      formData.append("title", data.title);
-      formData.append("content", data.content);
-      formData.append("image", file);
+      const formData = new FormData()
+      formData.append('title', data.title)
+      formData.append('content', data.content)
+      formData.append('image', file)
       try {
-        await axios.post("http://localhost:4200/api/posts/", formData, {
+        await axios.post('http://localhost:4200/api/posts/', formData, {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-            "Content-Type": "multipart/form-data",
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
           },
-        });
-        refetch();
-        reset({ content: "", title: "" });
+        })
+        refetch()
+        reset({ content: '', title: '' })
       } catch (error) {
-        alert("error");
-        console.log(error);
+        alert('error')
+        console.log(error)
       }
     },
     [setError, refetch, reset]
-  );
+  )
 
   return (
     <div className="post">
       <p>Quoi de neuf aujourd'hui ?</p>
       <form onSubmit={handleSubmit(handlePost)}>
         <textarea
-          {...register("title")}
+          {...register('title')}
           type="text"
           name="title"
           id="title"
@@ -78,7 +77,7 @@ const Post = ({ refetch }) => {
           <div className="error-title">{errors.title.message}</div>
         )}
         <textarea
-          {...register("content")}
+          {...register('content')}
           type="text"
           name="content"
           id="content"
@@ -96,14 +95,10 @@ const Post = ({ refetch }) => {
           name="image"
           accept="image/png, image/jpeg, image/jpg"
         />
-        <input
-          type="submit"
-          id="button"
-          value="Poster"
-        />
+        <input type="submit" id="button" value="Poster" />
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default Post;
+export default PostOnePost

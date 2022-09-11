@@ -1,51 +1,83 @@
-const bcrypt = require("bcrypt");
-const jwt = require("jsonwebtoken");
+const auth = require("../services/auth.services");
 
-const User = require("../models/user.model");
+const { PrismaClient } = require("@prisma/client");
+const prisma = new PrismaClient();
 
-//S'enregistrer
 
-exports.signup = (req, res, next) => {
-  bcrypt
-    .hash(req.body.password, 10)
-    .then((hash) => {
-      const user = new User({
-        email: req.body.email,
-        password: hash,
-        isAdmin: 0,
-      });
-      user
-        .save()
-        .then(() => res.status(201).json({ message: "Utilisateur créé !" }))
-        .catch((error) => {
-          console.log(error)
-          res.status(400).json({ error })
-        });
-    })
-    .catch((error) => res.status(500).json({ error }));
+
+// SIGNUP
+
+exports.signup = async (req, res, next) => {
+  try {
+    const user = await auth.signup(req, res);
+    res.status(201).json({
+      status: true,
+      message: "User created !",
+      data: user,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).json({ message: error.message });
+  }
 };
 
-//Se connecter
-exports.login = (req, res, next) => {
-  User.findOne({ email: req.body.email })
-    .then((user) => {
-      if (!user) {
-        return res.status(401).json({ error: "Utilisateur non trouvé !" });
-      }
-      bcrypt
-        .compare(req.body.password, user.password)
-        .then((valid) => {
-          if (!valid) {
-            return res.status(401).json({ error: "Mot de passe incorrect !" });
-          }
-          res.status(200).json({
-            userId: user._id,
-            token: jwt.sign({ userId: user._id }, 'udl*VFMnxp5Crly-({', {
-              expiresIn: "24h",
-            }),
-          });
+// LOGIN
+
+exports.login = async (req, res, next) => {
+    try {
+        const userLog = await auth.login(req, res)
+        res.status(200).json({
+            status: true,
+            message: 'Connexion ok !',
+            data: userLog
         })
-        .catch((error) => res.status(500).json({ error }));
-    })
-    .catch((error) => res.status(500).json({ error }));
+    } catch (error) {
+        console.log(error.message);
+        res.status(400).json({ message: error.message }); 
+    }
+}
+
+// SHOW ALL USERS
+
+exports.all = async (req, res, next) => {
+  try {
+    const allUsers = await prisma.user.findMany({
+      include: {
+        posts: true,
+        likes: true,
+      }
+    });
+    res.status(200).json({
+      status: true,
+      message: "All users",
+      data: allUsers
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
+};
+
+// SHOW ONE USER
+//
+exports.oneUser = async (req, res, next) => {
+  try {
+    const id = req.user.id;
+    const oneUser = await prisma.user.findUnique({
+      where: {
+        id: Number(id),
+      },
+      include: {
+        likes: true,
+      },
+    });
+    res.status(200).json({
+      status: true,
+      message: "One user",
+      data: oneUser,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
+  }
 };

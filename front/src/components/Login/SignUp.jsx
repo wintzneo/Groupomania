@@ -54,6 +54,14 @@ const SignUp = () => {
           <br />
         </div>
       )}
+      <label htmlFor="pseudo">Pseudo</label>
+      <br />
+      <input {...register('username')} />
+      <br />
+      {errors.username && (
+        <div className="error">{errors.username.message}</div>
+      )}
+      <br />
       <label htmlFor="email">Email </label>
       <br />
       <input {...register('email')} />
