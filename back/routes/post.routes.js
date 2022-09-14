@@ -2,20 +2,22 @@ const express = require("express");
 const router = express.Router();
 
 const post = require('../controllers/post.control');
-
+const auth = require('../middleware/auth')
 //Import du middleware multer pour la gestion des images
 const multer = require('../middleware/multer-config');
-
 const likePost = require('./like.routes')
 
-//router.post('/', auth, post.ANALYSE);
-router.post('/', multer, post.create);
+//Créer/Poster
+router.post('/',auth, multer, post.create);
 
-router.get('/',  post.list);
-router.get('/:id',  post.OnePost);
+//Lire/Récupérer
+router.get('/', auth, post.allPost)
+router.get('/:id', auth, post.onePost)
 
-router.delete('/:id', post.delete);
+//Supprimer
+router.delete('/:id',auth, post.delete);
 
-router.use('/:postId/like', likePost);
+//Like
+router.use('/:id/like', likePost);
 
 module.exports = router;

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 //Création d'un post
 exports.create = async (req, res, next) => {
   try {
-    const { title, content, imageAltText } = req.body;
+    const { title, content} = req.body;
     const userId = req.user.id;
     const data = {
       title,
@@ -16,13 +16,14 @@ exports.create = async (req, res, next) => {
         connect: { id: userId },
       }
     };
+
     if ( req.file) {
       data.image = `${req.protocol}://${req.get("host")}/images/${
         req.file.filename
       }`;
-      data.imageAltText = imageAltText;
     }
-    const post = await prisma.post.create({
+
+    const post = await prisma.Post.create({
       data, 
     });
     res.status(200).json({
@@ -37,9 +38,9 @@ exports.create = async (req, res, next) => {
 };
 
 //Récupération de tout les postes
-exports.list = async (req, res, next) => {
+exports.allPost = async (req, res, next) => {
   try {
-    const list = await prisma.post.findMany({
+    const allPost = await prisma.post.findMany({
       select: {
         id: true,
         title: true, 
@@ -52,8 +53,13 @@ exports.list = async (req, res, next) => {
             id: true,
             username: true,
             email: true,
+            profile: {
+              select: {
+                image: true,
+              }
+            }
           },
-        }
+        },
       },
       orderBy: {
         createAt: "desc",
@@ -62,7 +68,7 @@ exports.list = async (req, res, next) => {
     res.status(200).json({
       status: true,
       message: "All Posts",
-      data: list,
+      data: allPost,
     });
   } catch (error) {
     console.log(error.message);
@@ -72,12 +78,12 @@ exports.list = async (req, res, next) => {
 
 
 //Récupère un poste unique par l'id
-exports.OnePost = async (req, res, next) => {
+exports.onePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const OnePost = await prisma.post.findUnique({
+    const onePost = await prisma.post.findUnique({
       where: {
-        id: Number(id),
+        id: id,
       },
       include: {
         user: {
@@ -85,22 +91,10 @@ exports.OnePost = async (req, res, next) => {
             profile: true,
           },
         },
-        commentaire: {
-          orderBy: {
-            createAt: "desc",
-          },
-          include: {
-            user: {
-              include: {
-                profile: true,
-              },
-            },
-          },
-        },
         likes: true,
       },
     });
-    if (!OnePost) {
+    if (!onePost) {
       return res.status(404).json({
         message: "not found",
       });
@@ -108,7 +102,7 @@ exports.OnePost = async (req, res, next) => {
     res.status(200).json({
       status: true,
       message: "One post",
-      data: OnePost,
+      data: onePost,
     });
   } catch (error) {
     console.log(error.message);
@@ -120,7 +114,7 @@ exports.OnePost = async (req, res, next) => {
 exports.delete = async (req, res, next) => {
   const post = await prisma.post.findUnique({
     where: {
-      id: Number(req.params.id),
+      id: req.params.id,
     },
     include: {
       user: {
@@ -135,14 +129,14 @@ exports.delete = async (req, res, next) => {
       message: "not found",
     });
   }
-  if (req.user.isAdmin === 1 || post.userId === req.user.id) {
+  if (req.user.isAdmin === true || post.userId === req.user.id) {
     const image = req.body.image;
     const filename = String(image).split("/image/")[1];
     fs.unlink(`image/${filename}`, async () => {
       try {
         const post = await prisma.post.delete({
           where: {
-            id: Number(req.params.id),
+            id: req.params.id,
           },
         });
         res.status(200).json({

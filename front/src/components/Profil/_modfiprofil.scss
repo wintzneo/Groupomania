@@ -1,0 +1,118 @@
+.container-edit {
+    @include containerStyle;
+    @include glassmorphism;
+    text-align: center;
+    color: white;
+    position: relative;
+    margin-top: 7rem;
+    margin-bottom: 5rem;
+    .back-profile {
+      position: absolute;
+      left: 10px;
+      top: 10px;
+      font-size: 1.2rem;
+      color: $color;
+      background: $colorPrim;
+      padding: 0.5rem;
+      border-radius: 3rem;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      &:hover {
+        @include hover;
+      }
+    }
+    h1 {
+      margin: 2rem 0 1rem 0;
+      font-size: 1.7rem;
+      color: $colorPrim;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      color: $colorPrim;
+      label {
+        margin-bottom: 1rem;
+        color: $colorPrim;
+      }
+      #avatar {
+        margin-bottom: 1rem;
+        font-size: 0.8rem;
+        color: $colorPrim;
+      }
+      textarea {
+        border-radius: 1rem;
+        width: 75%;
+        height: 6rem;
+        padding: 0.8rem;
+        margin-bottom: 2rem;
+        resize : none;
+      }
+      .error-bio {
+        margin-top: -1.5rem;
+        margin-bottom: .5rem;
+      }
+      #button {
+        border: none;
+        margin-bottom: 2rem;
+        @include buttonStyle;
+        &:hover {
+          @include hover;
+        }
+      }
+    }
+    .delete {
+      margin: auto;
+      background: rgb(207, 9, 9);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: whitesmoke;
+      border-radius: 1.5rem;
+      -webkit-box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+      box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
+      cursor: pointer;
+      border: none;
+      margin-bottom: 1.5rem;
+      padding: 0.7rem;
+  
+      &:hover {
+        @include hover;
+      }
+      p {
+        margin-left: .3rem;
+      }
+    }
+  }
+  
+  // ******************** MediaQueries **************
+  
+  @media all and (max-width: 606px) {
+    .container-edit {
+      width: 25rem;
+    }
+  }
+  
+  @media all and (max-width: 436px) {
+    .container-edit {
+      width: 20rem;
+      .back-profile {
+        position: absolute;
+        left: 10px;
+        top: 10px;
+        font-size: 0.7rem;
+      }
+      h1 {
+        margin-top: 2.5rem;
+      }
+    }
+  }
+  
+  @media all and (max-width: 344px) {
+    .container-edit {
+      width: 18rem;
+    }
+  }
+  

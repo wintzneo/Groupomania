@@ -1,7 +1,8 @@
 import React from 'react'
 import { NavLink } from 'react-router-dom'
 import Logo from '../../assets/icon-left-font-monochrome-white.svg'
-import { BiHomeSmile } from "react-icons/bi";
+import { BiHomeSmile } from 'react-icons/bi'
+import { CgProfile } from 'react-icons/cg'
 
 const Header = () => {
   return (
@@ -20,8 +21,17 @@ const Header = () => {
         >
           <BiHomeSmile />
         </NavLink>
+        <NavLink
+          to="/Profile"
+          className={(nav) =>
+            nav.isActive ? 'nav-active nav_profile' : 'nav_profile'
+          }
+        >
+          <CgProfile />
+        </NavLink>
       </div>
     </div>
   )
 }
+
 export default Header

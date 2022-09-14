@@ -2,7 +2,7 @@ const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
 
-// Like
+//Liké le post
 exports.addLike = async (req, res, next) => {
   try {
     const {postId} = req.params;
@@ -13,7 +13,7 @@ exports.addLike = async (req, res, next) => {
           connect: { id: userId },
         },
         post: {
-          connect: {id: Number(postId)},
+          connect: {id: postId},
         },
       },
     });
@@ -28,16 +28,15 @@ exports.addLike = async (req, res, next) => {
   }
 };
 
-// IS LIKE
-
+//Post liké
 exports.isLike = async (req, res, nex) => {
   try {
     const id = req.user.id;
     const postId = req.params.postId;
     const userLiked = await prisma.likes.findMany({
       where: {
-        userId: Number(id),
-        postId: Number(postId),
+        userId: id,
+        postId: postId,
       },
     });
     res.status(200).json({
@@ -51,14 +50,13 @@ exports.isLike = async (req, res, nex) => {
   }
 };
 
-// DELETE LIKE
-
+//Supprimer like
 exports.deleteLike = async (req, res, next) => {
   try {
     let id = req.params.id;
     const deleteLike = await prisma.likes.delete({
       where: {
-        id: Number(id),
+        id: id,
       },
     });
     res.status(200).json({

@@ -1,5 +1,5 @@
 generator client {
-  provider = "prisma-client-js"
+    provider = "prisma-client-js"
 }
 
 datasource db {
@@ -14,20 +14,28 @@ model Post {
   title     String
   content   String?
   image     String?
-  imageAltText String?
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String @db.ObjectId
   likes     Likes[]
 }
 
 model User {
-  id        String @id @default(auto()) @map("_id") @db.ObjectId 
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
   email     String @unique
   username  String? @unique
   password  String 
   posts     Post[]
+  profile   Profile?
   likes     Likes[]
   isAdmin   Boolean @default(false)
+}
+
+model Profile {
+  id        String @id @default(auto()) @map("_id") @db.ObjectId
+  image     String?
+  bio       String?
+  user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String @unique @db.ObjectId
 }
 
 model Likes {
@@ -35,5 +43,5 @@ model Likes {
   post      Post @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    String
   user      User @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  userId    String @db.ObjectId
 }

@@ -6,7 +6,7 @@ const Likes = (item) => {
   // add like
   const handleLike = useCallback(async (data) => {
     const res = await axios.post(
-      `http://localhost:4200/api/posts/38/likes`,
+      `http://localhost:4200/api/posts/likes`,
       data,
       {
         headers: {

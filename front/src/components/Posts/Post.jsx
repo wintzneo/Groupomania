@@ -1,5 +1,5 @@
 import axios from 'axios'
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, useRef, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -31,7 +31,7 @@ const PostOnePost = ({ refetch }) => {
     resolver: yupResolver(schema),
   })
 
-  // post one post
+  //Créer un post
   const handlePost = useCallback(
     async (data) => {
       const file = inputFileRef.current.files[0]
@@ -43,11 +43,13 @@ const PostOnePost = ({ refetch }) => {
       formData.append('title', data.title)
       formData.append('content', data.content)
       formData.append('image', file)
+      formData.append('userId', data.userId)
       try {
         await axios.post('http://localhost:4200/api/posts/', formData, {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',
+            userId: localStorage.getItem('userId'),
           },
         })
         refetch()

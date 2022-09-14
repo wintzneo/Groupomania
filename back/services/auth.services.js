@@ -24,7 +24,7 @@ passwordSchema
   .not()
   .spaces();
 
-// create user
+//Créer utilisateur
 exports.signup = async (req, res, next) => {
   if(!emailValidator.validate(req.body.email)) {
     return res.status(401).json({message: "Veuillez entrer une adresse email valide"})
@@ -39,6 +39,12 @@ exports.signup = async (req, res, next) => {
       email,
       password: hash,
       username,
+      profile: {
+        create: {
+          bio: "Dites-nous en plus sur vous !",
+          image: "http://localhost:4200/images/",
+        },
+      },
     },
   });
   const token = await jwt.signAccessToken(user);

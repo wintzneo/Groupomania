@@ -1,0 +1,119 @@
+.container-profile{
+    margin-top: 7rem;
+    margin-bottom: 5rem;
+  }
+  
+  .showProfilInfo {
+    text-align: center;
+    @include glassmorphism;
+    @include containerStyle;
+    position: relative;
+    .hello {
+      h1 {
+        font-size: 1.7rem;
+        color: $colorPrim;
+      }
+      text-align: center;
+      margin-top: 2rem;
+      .edit-profile {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        font-size: 1.2rem;
+        color: $color;
+        background: $colorPrim;
+        padding: 0.5rem;
+        border-radius: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        &:hover {
+          @include hover;
+        }
+      }
+    }
+    .picture {
+      #avatar {
+        margin: 2rem 0 1.5rem 0;
+        width: 10rem;
+        height: 10rem;
+        border-radius: 5rem;
+        object-fit: cover;
+      }
+    }
+    .pseudo {
+      margin-bottom: 1rem;
+      color: $colorPrim;
+      p {
+        width: 30%;
+        margin: auto;
+        background: $colorPrim;
+        border-radius: 1rem;
+        padding: .5rem;
+        margin-bottom: .5rem;
+        color: white;
+      }
+    }
+    .bio {
+      margin-bottom: 2.5rem;
+      color: $colorPrim;
+      p {
+        width: 30%;
+        margin: auto;
+        background: $colorPrim;
+        border-radius: 1rem;
+        padding: .5rem;
+        margin-bottom: .5rem;
+        color: white;
+      }
+    }
+    .logout {
+      margin: auto;
+      width: 40%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 2rem;
+      cursor: pointer;
+      background: rgba(65, 16, 110, 0.411);
+      border-radius: 1rem ;
+      padding: .9rem;
+      &:hover {
+        @include hover;
+      }
+    }
+  }
+  
+  
+  
+  // ******************** MediaQueries **************
+  
+  @media all and (max-width: 606px) {
+    .showProfilInfo {
+      width: 25rem;
+      .picture {
+        #avatar {
+          width: 60%;
+        }
+      }
+    }
+  }
+  
+  @media all and (max-width: 436px) {
+    .showProfilInfo {
+      width: 20rem;
+      .hello {
+  
+        .edit-profile {
+          font-size: 0.7rem;
+        }
+      }
+    }
+  }
+  
+  @media all and (max-width: 344px) {
+    .showProfilInfo {
+      width: 18rem;
+    }
+  }
+  

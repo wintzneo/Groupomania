@@ -4,7 +4,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import axios from 'axios'
 import * as yup from 'yup'
 
-// Schema YUP
+//Schema YUP
 const schema = yup.object({
   email: yup.string().email('Email invalide').required('Ce champ est requis'),
   password: yup
@@ -28,7 +28,7 @@ const SignUp = () => {
     resolver: yupResolver(schema),
   })
 
-  // connect with backend
+  //Connecter avec le back-end
   const handleSignUp = useCallback(async (data) => {
     try {
       await axios.post('http://localhost:4200/api/users/signup', data)

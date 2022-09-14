@@ -12,8 +12,9 @@ const Card = ({
   title,
   image,
   content,
+  likes,
 }) => {
-  // ********* gestion des dates/heures ************
+  //Gestion des dates/heures
   const takeDate = createAt.split('T')[0]
 
   const takeHour = createAt.split('T')[1].split('.')[0]
@@ -36,8 +37,7 @@ const Card = ({
     return dateOk
   }
 
-  // ********* backend ***********
-  // delete post
+  //Supprimer le post
   const handleDelete = async () => {
     const isConfirm = window.confirm('Êtes-vous sûrs de supprimer le post?')
     if (!isConfirm) {
@@ -58,8 +58,8 @@ const Card = ({
           <img src={user.profile.image} alt="" />
           <div className="username_btnDelete">
             <p className="username">{user.username}</p>
-            {Number(localStorage.getItem('userId')) === userId ||
-            Number(localStorage.getItem('userId')) === 93 ? (
+            {localStorage.getItem('userId') === userId ||
+            localStorage.getItem('userId') === 93 ? (
               <p className="delete-button" onClick={handleDelete}>
                 <BsFillTrashFill />
               </p>

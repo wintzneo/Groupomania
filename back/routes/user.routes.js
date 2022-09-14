@@ -1,15 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-const userCtrl = require('../controllers/user.control');
+const user = require('../controllers/user.control');
 const auth = require('../middleware/auth')
 
-// create / post
-router.post('/signup',userCtrl.signup);
-router.post('/login',userCtrl.login);
+//S'enregister/Login
+router.post('/signup',user.signup);
+router.post('/login',user.login);
 
-// read / get
-router.get('/', auth, userCtrl.all)
-router.get('/likes', auth, userCtrl.oneUser)
+//Lire/Récupérer
+router.get('/', auth, user.all)
+router.get('/profile', auth, user.oneUserProfile)
+router.get('/likes', auth, user.oneUser)
+
+//Supprimer
+router.delete('/:id', auth, user.deleteUser)
+router.delete('/', auth, user.deleteOwn)
 
 module.exports = router;

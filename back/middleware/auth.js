@@ -5,9 +5,7 @@ const prisma = new PrismaClient();
 module.exports = async (req, res, next) => {
   try {
     const token = req.headers.authorization.split(' ')[1];
-
     const decodeToken = jwt.verify(token, process.env.TOKEN);
-
     const userId = decodeToken.payload.id;
 
     if (!userId) {
@@ -16,7 +14,7 @@ module.exports = async (req, res, next) => {
     }
     const user = await prisma.user.findUnique({
       where: {
-        id: Number(userId),
+        id: userId,
       },
     });
     if (!user) {
