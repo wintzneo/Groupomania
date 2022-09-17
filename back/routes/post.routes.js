@@ -10,6 +10,9 @@ const likePost = require('./like.routes')
 //Créer/Poster
 router.post('/',auth, multer, post.create);
 
+//Modifer
+router.put('/:id',auth, post.updatePost);
+
 //Lire/Récupérer
 router.get('/', auth, post.allPost)
 router.get('/:id', auth, post.onePost)
@@ -18,6 +21,6 @@ router.get('/:id', auth, post.onePost)
 router.delete('/:id',auth, post.delete);
 
 //Like
-router.use('/:id/like', likePost);
+router.use('/:id/likes', likePost);
 
 module.exports = router;

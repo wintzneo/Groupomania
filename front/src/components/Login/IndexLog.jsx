@@ -22,7 +22,9 @@ const Login = () => {
   return (
     <div className="connexion-page">
       <h2>
-        Bienvenue à <br /> <span>Groupomania</span>
+        GROUPOMANIA
+        <br /> <span>vous souhaite</span>
+        <br /> <span>la bienvenue !</span>
       </h2>
       <div className="connectionForm">
         <div className="formContainer">
@@ -32,14 +34,14 @@ const Login = () => {
               id="register"
               className={signUpModal ? 'active-btn' : ''}
             >
-              S'inscrire
+              Inscrivez-vous !
             </li>
             <li
               onClick={handleModals}
               id="login"
               className={signInModal ? 'active-btn' : ''}
             >
-              Se connecter
+              Connectez-vous !
             </li>
           </ul>
           {signUpModal && <SignUp />}

@@ -35,6 +35,19 @@
                 }
             }
         }
+        .username_btnModif {
+            display: flex;
+            align-items: center;
+            margin-left: 5px;
+            .modif-button {
+                color: $colorPrim !important;
+                font-size: 1.2rem;
+                cursor: pointer;
+                &:hover {
+                    @include hover;
+                }
+            }
+        }
     }
     h2 {
         font-size: 1rem;

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
 //Création d'un post
 exports.create = async (req, res, next) => {
   try {
-    const { title, content} = req.body;
+    const { title, content } = req.body;
     const userId = req.user.id;
     const data = {
       title,
@@ -17,14 +17,13 @@ exports.create = async (req, res, next) => {
       }
     };
 
-    if ( req.file) {
-      data.image = `${req.protocol}://${req.get("host")}/images/${
-        req.file.filename
-      }`;
+    if (req.file) {
+      data.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename
+        }`;
     }
 
     const post = await prisma.Post.create({
-      data, 
+      data,
     });
     res.status(200).json({
       status: true,
@@ -37,13 +36,102 @@ exports.create = async (req, res, next) => {
   }
 };
 
+
+//Modifier un post
+/* exports.updatePost = async (req, res, next) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: req.params.id,
+    },
+    include: {
+      user: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+  if (!post) {
+    return res.status(404).json({
+      message: "not found",
+    });
+  }
+  if (post.userId === req.user.id || req.user.isAdmin === true) {
+    try {
+      const image = `${req.protocol}://${req.get('host')}/images/${req.file.filename}`;
+      const post = await prisma.Post.update({
+        title : req.body.title,
+        content: req.body.content,
+			  image: image,
+      });
+      res.status(200).json({
+        status: true,
+        message: "Post updated !",
+        data: post,
+      });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
+}
+ */
+
+//Modifier un post
+exports.updatePost = async (req, res, next) => {
+  const post = await prisma.post.findUnique({
+    where: {
+      id: req.params.id,
+    },
+    include: {
+      user: {
+        include: {
+          profile: true,
+        },
+      },
+    },
+  });
+  if (!post) {
+    return res.status(404).json({
+      message: "not found",
+    });
+  }
+  if (post.userId === req.user.id || req.user.isAdmin === true) {
+    try {
+      const id = req.params.id;
+      const data = {
+        title,
+        content,
+        user: {
+          connect: { id: userId },
+        }
+      };
+      if(req.file) {
+        data.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+      }
+      const post = await prisma.profile.update({
+        where: {
+          userId: id,
+        },
+        data
+      });
+      res.status(200).json({
+        status: true,
+        message: "Post updated !",
+        data: post,
+      });
+    } catch (error) {
+      res.status(400).json({ message: error.message });
+    }
+  };
+}
+
 //Récupération de tout les postes
 exports.allPost = async (req, res, next) => {
   try {
     const allPost = await prisma.post.findMany({
       select: {
         id: true,
-        title: true, 
+        title: true,
         content: true,
         image: true,
         createAt: true,
@@ -129,7 +217,7 @@ exports.delete = async (req, res, next) => {
       message: "not found",
     });
   }
-  if (req.user.isAdmin === true || post.userId === req.user.id) {
+  if (post.userId === req.user.id || req.user.isAdmin === true) {
     const image = req.body.image;
     const filename = String(image).split("/image/")[1];
     fs.unlink(`image/${filename}`, async () => {
@@ -148,6 +236,6 @@ exports.delete = async (req, res, next) => {
       }
     });
   } else {
-    res.status(403).json({message: "pas autorisé"})
+    res.status(403).json({ message: "pas autorisé" })
   }
 };

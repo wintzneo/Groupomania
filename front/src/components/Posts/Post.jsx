@@ -64,7 +64,7 @@ const PostOnePost = ({ refetch }) => {
 
   return (
     <div className="post">
-      <p>Quoi de neuf aujourd'hui ?</p>
+      <p>Postez donc !</p>
       <form onSubmit={handleSubmit(handlePost)}>
         <textarea
           {...register('title')}

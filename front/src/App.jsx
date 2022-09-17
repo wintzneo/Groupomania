@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Login from './pages/Login'
 import Profil from './pages/Profil'
 import ModifProfil from './pages/ModifProfil'
+import ModifPost from './pages/ModifPost'
 import Axios from './components/Axios/Axios'
 
 function App() {
@@ -16,6 +17,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/profile" element={<Profil />} />
           <Route path="/modif" element={<ModifProfil />} />
+          <Route path="/modifpost" element={<ModifPost />} />
           <Route path="*" element={<Home />} />
           <Route path="/login" element={<Login />} />
         </Routes>

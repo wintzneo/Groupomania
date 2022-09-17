@@ -5,15 +5,12 @@ import axios from 'axios'
 const Likes = (item) => {
   // add like
   const handleLike = useCallback(async (data) => {
-    const res = await axios.post(
-      `http://localhost:4200/api/posts/likes`,
-      data,
-      {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      }
-    )
+    await axios.post(`http://localhost:3000/api/posts/likes`, data, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+        userId: localStorage.getItem('userId'),
+      },
+    })
   }, [])
 
   return (
@@ -21,7 +18,7 @@ const Likes = (item) => {
       <p onClick={handleLike} className="icon-heart">
         <AiFillHeart />
       </p>
-      <p className="likes_length">{item.props.props.likes.length}</p>
+      <p className="likes_length">{item.likes}</p>
     </div>
   )
 }

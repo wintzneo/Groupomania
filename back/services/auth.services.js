@@ -42,7 +42,7 @@ exports.signup = async (req, res, next) => {
       profile: {
         create: {
           bio: "Dites-nous en plus sur vous !",
-          image: "http://localhost:4200/images/",
+          image: "http://localhost:4200/images/icon-left-font.png",
         },
       },
     },

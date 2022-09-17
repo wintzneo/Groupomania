@@ -1,18 +1,20 @@
 import axios from 'axios'
-import React from 'react'
+import { NavLink } from 'react-router-dom'
+// import Likes from '../Likes/Likes'
 import { BiTimeFive } from 'react-icons/bi'
 import { BsFillTrashFill } from 'react-icons/bs'
+import { AiFillSetting } from 'react-icons/ai'
 
 const Card = ({
   createAt,
   userId,
   id,
   refetch,
+  // likes,
   user,
   title,
   image,
   content,
-  likes,
 }) => {
   //Gestion des dates/heures
   const takeDate = createAt.split('T')[0]
@@ -67,6 +69,16 @@ const Card = ({
               ''
             )}
           </div>
+          <div className="username_btnModif">
+            {localStorage.getItem('userId') === userId ||
+            localStorage.getItem('userId') === 93 ? (
+              <NavLink to="/modifpost" className="modif-button">
+                <AiFillSetting />
+              </NavLink>
+            ) : (
+              ''
+            )}
+          </div>
         </div>
         <div className="post_content">
           <h2>{title}</h2>
@@ -80,6 +92,7 @@ const Card = ({
             <p className="hour">{formatHourInput(takeHour)}</p>
           </div>
         </div>
+        {/*   <Likes like={likes} id={id} userId={userId} /> */}
       </li>
     </>
   )
