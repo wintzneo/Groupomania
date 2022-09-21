@@ -1,6 +1,5 @@
 import React, { useRef, useCallback } from 'react'
 import axios from 'axios'
-import { NavLink, useNavigate } from 'react-router-dom'
 import { useForm } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -20,21 +19,17 @@ const schema = yup.object({
     .required(),
 })
 
-const EditMyPost = ({ refetch }) => {
+const EditMyPost = ({ postData }) => {
   const inputFileRef = useRef()
-  const navigate = useNavigate()
-
+  console.log('Data', postData)
   const {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
-
-  const id = localStorage.getItem('postId')
 
   //Modif un post
   const handleModif = useCallback(
@@ -48,80 +43,23 @@ const EditMyPost = ({ refetch }) => {
       formData.append('content', data.content)
       formData.append('image', file)
       formData.append('userId', data.userId)
-      await axios.put(`http://localhost:4200/api/posts/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
-          userId: localStorage.getItem('userId'),
-        },
-      })
-      navigate('/')
-      refetch()
-      reset({ content: '', title: '' })
-    },
-    [navigate, setError, refetch, reset]
-  )
-
-  /*  //Modifier un post
-  const handleModif = useCallback(
-    async (data) => {
-      const file = inputFileRef.current.files[0]
-      const PostId = localStorage.getItem('id')
-      console.log(PostId, 'e')
-
-      if (!file) {
-        setError('image', 'Requis')
-      }
-      const formData = new FormData()
-      formData.append('title', data.title)
-      formData.append('content', data.content)
-      formData.append('image', file)
-      formData.append('userId', data.userId)
       await axios.put(`http://localhost:4200/api/posts/`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
           'Content-Type': 'multipart/form-data',
-          userId: localStorage.getItem('userId'),
         },
       })
-      navigate('/')
-      refetch()
-      reset({ content: '', title: '' })
+      console.log('DATA', postData)
     },
-    [setError, navigate, refetch, reset]
-  ) */
-
-  /*    //Modifier un post
-  const handleModif = useCallback(
-    async (data) => {
-      const file = inputFileRef.current.files[0]
-
-      if (!file) {
-        setError('image', 'Requis')
-      }
-      const formData = new FormData()
-      formData.append('title', data.title)
-      formData.append('content', data.content)
-      formData.append('image', file)
-      formData.append('userId', data.userId)
-      await axios.put(`http://localhost:4200/api/posts/${id}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
-          userId: localStorage.getItem('userId'),
-        },
-      })
-      navigate('/')
-    },
-    [navigate, setError]
-  ) */
+    [setError]
+  )
 
   return (
     <div>
       <div className="post">
-        <NavLink to="/" className="back-profile">
+        <p to="/" className="back-profile">
           <BiArrowBack />
-        </NavLink>
+        </p>
         <p>Modifier votre post</p>
         <form onSubmit={handleSubmit(handleModif)}>
           <textarea

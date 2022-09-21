@@ -31,7 +31,7 @@ const EditMyProfile = () => {
     resolver: yupResolver(schema),
   })
 
-  const recupereUserId = localStorage.getItem('userId')
+  const userId = localStorage.getItem('userId')
 
   //Supprimer profil
   const handleDelete = async () => {
@@ -50,7 +50,7 @@ const EditMyProfile = () => {
     navigate('/login')
   }
 
-  //Mofif profil
+  //Modif profil
   const handleModif = useCallback(
     async (data) => {
       const file = inputFileRef.current.files[0]
@@ -60,19 +60,15 @@ const EditMyProfile = () => {
       const formData = new FormData()
       formData.append('image', file)
       formData.append('bio', data.bio)
-      await axios.put(
-        `http://localhost:4200/api/profile/${recupereUserId}`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      )
+      await axios.put(`http://localhost:4200/api/profile/${userId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
       navigate('/Profile')
     },
-    [recupereUserId, navigate, setError]
+    [userId, navigate, setError]
   )
 
   return (

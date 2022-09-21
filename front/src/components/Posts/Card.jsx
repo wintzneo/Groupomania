@@ -1,15 +1,31 @@
 import axios from 'axios'
-import { NavLink } from 'react-router-dom'
+import React, { useRef, useCallback } from 'react'
 // import Likes from '../Likes/Likes'
 import { BiTimeFive } from 'react-icons/bi'
 import { BsFillTrashFill } from 'react-icons/bs'
 import { AiFillSetting } from 'react-icons/ai'
+import * as yup from 'yup'
+
+// Schema YUP
+const schema = yup.object({
+  title: yup
+    .string()
+    .min(1, 'Veuillez remplir le champ')
+    .max(25, 'Pas plus de 25 caractères')
+    .required(),
+  content: yup
+    .string()
+    .min(1, 'Veuillez remplir le champ')
+    .max(200, 'Pas plus de 200 caractères')
+    .required(),
+})
 
 const Card = ({
   createAt,
   userId,
   id,
   refetch,
+  updatePost,
   // likes,
   user,
   title,
@@ -53,6 +69,18 @@ const Card = ({
     refetch()
   }
 
+  //Modifier le post
+  const handleModif = async () => {
+    const data = {
+      title,
+      content,
+      userId,
+      image,
+      id,
+    }
+    updatePost(data)
+  }
+
   return (
     <>
       <li className="card" key={id}>
@@ -61,7 +89,7 @@ const Card = ({
           <div className="username_btnDelete">
             <p className="username">{user.username}</p>
             {localStorage.getItem('userId') === userId ||
-            localStorage.getItem('userId') === 93 ? (
+            localStorage.getItem('isAdmin') === 'true' ? (
               <p className="delete-button" onClick={handleDelete}>
                 <BsFillTrashFill />
               </p>
@@ -71,10 +99,10 @@ const Card = ({
           </div>
           <div className="username_btnModif">
             {localStorage.getItem('userId') === userId ||
-            localStorage.getItem('userId') === 93 ? (
-              <NavLink to="/modifpost" className="modif-button">
+            localStorage.getItem('isAdmin') === 'true' ? (
+              <p className="modif-button" onClick={handleModif}>
                 <AiFillSetting />
-              </NavLink>
+              </p>
             ) : (
               ''
             )}

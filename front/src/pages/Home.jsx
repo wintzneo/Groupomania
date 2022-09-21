@@ -2,10 +2,19 @@ import React, { useCallback, useEffect, useState } from 'react'
 import axios from 'axios'
 import Card from '../components/Posts/Card'
 import PostOnePost from '../components/Posts/Post'
+import ModifyPost from '../components/Posts/ModifPost'
 import { BsFillArrowUpCircleFill } from 'react-icons/bs'
 
 const Home = () => {
   const [posts, setPosts] = useState([])
+  const [update, setUpdate] = useState(false)
+  const [postData, setPostData] = useState({})
+
+  const updatePost = (data) => {
+    setUpdate(true)
+    setPostData(data)
+    console.log('postData', postData)
+  }
 
   // boutton remonte page
   const scrollTop = () => {
@@ -30,10 +39,20 @@ const Home = () => {
 
   return (
     <div>
-      <PostOnePost refetch={fetchPosts} />
+      {update ? (
+        <ModifyPost postData={postData} />
+      ) : (
+        <PostOnePost refetch={fetchPosts} />
+      )}
       {posts.map((item) => (
-        <Card refetch={fetchPosts} key={item.id} {...item} />
+        <Card
+          refetch={fetchPosts}
+          key={item.id}
+          {...item}
+          updatePost={updatePost}
+        />
       ))}
+
       <BsFillArrowUpCircleFill className="scrollTop" onClick={scrollTop} />
     </div>
   )
