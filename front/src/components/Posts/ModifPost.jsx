@@ -21,20 +21,24 @@ const schema = yup.object({
 
 const EditMyPost = ({ postData }) => {
   const inputFileRef = useRef()
-  console.log('Data', postData)
   const {
     register,
     handleSubmit,
     setError,
+    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
 
+  const id = postData.id
+  console.log('postId', id)
+
   //Modif un post
   const handleModif = useCallback(
     async (data) => {
       const file = inputFileRef.current.files[0]
+
       if (!file) {
         setError('image', 'Requis')
       }
@@ -43,21 +47,27 @@ const EditMyPost = ({ postData }) => {
       formData.append('content', data.content)
       formData.append('image', file)
       formData.append('userId', data.userId)
-      await axios.put(`http://localhost:4200/api/posts/`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
-        },
-      })
-      console.log('DATA', postData)
+      console.log('data', data.title)
+      try {
+        await axios.put(`http://localhost:4200/api/posts/${id}`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        })
+        reset({ content: '', title: '' })
+      } catch (error) {
+        alert('error')
+        console.log(error)
+      }
     },
-    [setError]
+    [setError,postData, id, reset]
   )
 
   return (
     <div>
       <div className="post">
-        <p to="/" className="back-profile">
+        <p className="back-profile">
           <BiArrowBack />
         </p>
         <p>Modifier votre post</p>

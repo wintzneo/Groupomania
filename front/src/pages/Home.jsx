@@ -13,7 +13,7 @@ const Home = () => {
   const updatePost = (data) => {
     setUpdate(true)
     setPostData(data)
-    console.log('postData', postData)
+    console.log('Home', postData)
   }
 
   // boutton remonte page
@@ -37,6 +37,9 @@ const Home = () => {
     fetchPosts()
   }, [fetchPosts])
 
+
+
+
   return (
     <div>
       {update ? (
@@ -47,9 +50,10 @@ const Home = () => {
       {posts.map((item) => (
         <Card
           refetch={fetchPosts}
+          updatePost={updatePost}
+          postData={postData}
           key={item.id}
           {...item}
-          updatePost={updatePost}
         />
       ))}
 

@@ -1,24 +1,9 @@
 import axios from 'axios'
-import React, { useRef, useCallback } from 'react'
+import React, { useRef, useCallback,  useEffect, useState  } from 'react'
 // import Likes from '../Likes/Likes'
 import { BiTimeFive } from 'react-icons/bi'
 import { BsFillTrashFill } from 'react-icons/bs'
 import { AiFillSetting } from 'react-icons/ai'
-import * as yup from 'yup'
-
-// Schema YUP
-const schema = yup.object({
-  title: yup
-    .string()
-    .min(1, 'Veuillez remplir le champ')
-    .max(25, 'Pas plus de 25 caractères')
-    .required(),
-  content: yup
-    .string()
-    .min(1, 'Veuillez remplir le champ')
-    .max(200, 'Pas plus de 200 caractères')
-    .required(),
-})
 
 const Card = ({
   createAt,
@@ -57,7 +42,7 @@ const Card = ({
 
   //Supprimer le post
   const handleDelete = async () => {
-    const isConfirm = window.confirm('Êtes-vous sûrs de supprimer le post?')
+    const isConfirm = window.confirm('Êtes-vous sûrs de supprimer le post ?')
     if (!isConfirm) {
       return
     }
@@ -71,6 +56,10 @@ const Card = ({
 
   //Modifier le post
   const handleModif = async () => {
+    const isConfirm = window.confirm('Êtes-vous sûrs de modifier le post ?')
+    if (!isConfirm) {
+      return
+    }
     const data = {
       title,
       content,
@@ -78,6 +67,11 @@ const Card = ({
       image,
       id,
     }
+    await axios.get(`http://localhost:4200/api/posts/${id}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
     updatePost(data)
   }
 
@@ -101,7 +95,7 @@ const Card = ({
             {localStorage.getItem('userId') === userId ||
             localStorage.getItem('isAdmin') === 'true' ? (
               <p className="modif-button" onClick={handleModif}>
-                <AiFillSetting />
+                <AiFillSetting/>
               </p>
             ) : (
               ''
