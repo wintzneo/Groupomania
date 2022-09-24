@@ -25,44 +25,49 @@ const EditMyPost = ({ postData }) => {
     register,
     handleSubmit,
     setError,
-    reset,
     formState: { errors },
   } = useForm({
     resolver: yupResolver(schema),
   })
 
-  const id = postData.id
-  console.log('postId', id)
+  const postId = postData.id
+  const userId = postData.userId
+  const title = postData.title
+  const content = postData.content
+  console.log('user', userId, 'post', postId)
 
   //Modif un post
-  const handleModif = useCallback(
-    async (data) => {
-      const file = inputFileRef.current.files[0]
+  const handleModify = useCallback(async () => {
+    await axios.get(`http://localhost:4200/api/posts/${postId}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
+      },
+    })
 
-      if (!file) {
-        setError('image', 'Requis')
-      }
-      const formData = new FormData()
-      formData.append('title', data.title)
-      formData.append('content', data.content)
-      formData.append('image', file)
-      formData.append('userId', data.userId)
-      console.log('data', data.title)
-      try {
-        await axios.put(`http://localhost:4200/api/posts/${id}`, formData, {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        })
-        reset({ content: '', title: '' })
-      } catch (error) {
-        alert('error')
-        console.log(error)
-      }
-    },
-    [setError,postData, id, reset]
-  )
+    const file = inputFileRef.current.files[0]
+    if (!file) {
+      setError('image', 'Requis')
+    }
+
+    const formData = new FormData()
+    formData.append('title', title)
+    formData.append('content', content)
+    formData.append('image', file)
+    formData.append('userId', userId)
+
+    console.log('data', title, content, file, userId)
+    try {
+      await axios.put(`http://localhost:4200/api/posts/${postId}`, formData, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      })
+    } catch (error) {
+      alert('error')
+      console.log(error)
+    }
+  }, [title, content, userId, setError, postId])
 
   return (
     <div>
@@ -71,7 +76,7 @@ const EditMyPost = ({ postData }) => {
           <BiArrowBack />
         </p>
         <p>Modifier votre post</p>
-        <form onSubmit={handleSubmit(handleModif)}>
+        <form onSubmit={handleSubmit(handleModify)}>
           <textarea
             {...register('title')}
             type="text"

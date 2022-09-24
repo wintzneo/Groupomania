@@ -37,9 +37,6 @@ const Home = () => {
     fetchPosts()
   }, [fetchPosts])
 
-
-
-
   return (
     <div>
       {update ? (
@@ -56,7 +53,6 @@ const Home = () => {
           {...item}
         />
       ))}
-
       <BsFillArrowUpCircleFill className="scrollTop" onClick={scrollTop} />
     </div>
   )

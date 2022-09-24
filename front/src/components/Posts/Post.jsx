@@ -49,7 +49,6 @@ const PostOnePost = ({ refetch }) => {
           headers: {
             Authorization: `Bearer ${localStorage.getItem('token')}`,
             'Content-Type': 'multipart/form-data',
-            userId: localStorage.getItem('userId'),
           },
         })
         refetch()

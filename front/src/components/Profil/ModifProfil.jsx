@@ -51,7 +51,7 @@ const EditMyProfile = () => {
   }
 
   //Modif profil
-  const handleModif = useCallback(
+  const handleModify = useCallback(
     async (data) => {
       const file = inputFileRef.current.files[0]
       if (!file) {
@@ -77,7 +77,7 @@ const EditMyProfile = () => {
         <BiArrowBack />
       </NavLink>
       <h1>Modifier le profil</h1>
-      <form action="submit" onSubmit={handleSubmit(handleModif)}>
+      <form action="submit" onSubmit={handleSubmit(handleModify)}>
         <label htmlFor="image">
           Modifier la photo <MdAddAPhoto />{' '}
         </label>

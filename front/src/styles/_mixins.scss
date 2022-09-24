@@ -20,8 +20,9 @@
 }
 
 @mixin buttonStyle {
-  padding: .7rem;
+  padding: 0.7rem;
   background: $colorPrim;
+  color: white;
   border-radius: 1.5rem;
   -webkit-box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);
   box-shadow: -2px 1px 16px 1px rgba(0, 0, 0, 0.34);

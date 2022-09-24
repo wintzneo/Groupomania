@@ -1,6 +1,5 @@
 import axios from 'axios'
-import React, { useRef, useCallback,  useEffect, useState  } from 'react'
-// import Likes from '../Likes/Likes'
+import Likes from '../Likes/Likes'
 import { BiTimeFive } from 'react-icons/bi'
 import { BsFillTrashFill } from 'react-icons/bs'
 import { AiFillSetting } from 'react-icons/ai'
@@ -11,7 +10,7 @@ const Card = ({
   id,
   refetch,
   updatePost,
-  // likes,
+  likes = [],
   user,
   title,
   image,
@@ -55,7 +54,7 @@ const Card = ({
   }
 
   //Modifier le post
-  const handleModif = async () => {
+  const handleModify = async () => {
     const isConfirm = window.confirm('Êtes-vous sûrs de modifier le post ?')
     if (!isConfirm) {
       return
@@ -94,8 +93,8 @@ const Card = ({
           <div className="username_btnModif">
             {localStorage.getItem('userId') === userId ||
             localStorage.getItem('isAdmin') === 'true' ? (
-              <p className="modif-button" onClick={handleModif}>
-                <AiFillSetting/>
+              <p className="modif-button" onClick={handleModify}>
+                <AiFillSetting />
               </p>
             ) : (
               ''
@@ -114,7 +113,7 @@ const Card = ({
             <p className="hour">{formatHourInput(takeHour)}</p>
           </div>
         </div>
-        {/*   <Likes like={likes} id={id} userId={userId} /> */}
+        {<Likes like={likes} id={id} userId={userId} />}
       </li>
     </>
   )
