@@ -36,7 +36,7 @@ const EditMyPost = ({ postData }) => {
   const content = postData.content
   console.log('user', userId, 'post', postId)
 
-  //Modif un post
+  //Modifier un post
   const handleModify = useCallback(async () => {
     await axios.get(`http://localhost:4200/api/posts/${postId}`, {
       headers: {
@@ -60,7 +60,6 @@ const EditMyPost = ({ postData }) => {
       await axios.put(`http://localhost:4200/api/posts/${postId}`, formData, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
-          'Content-Type': 'multipart/form-data',
         },
       })
     } catch (error) {
@@ -69,10 +68,20 @@ const EditMyPost = ({ postData }) => {
     }
   }, [title, content, userId, setError, postId])
 
+  //Retourner à la création de post
+  const handleReturn = async () => {
+    const isConfirm = window.confirm(
+      'Êtes-vous sûrs de sortir sans modifier le post ?'
+    )
+    if (!isConfirm) {
+      return
+    }
+  }
+
   return (
     <div>
       <div className="post">
-        <p className="back-profile">
+        <p className="back-profile" onClick={handleReturn}>
           <BiArrowBack />
         </p>
         <p>Modifier votre post</p>

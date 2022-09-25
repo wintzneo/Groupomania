@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 //Liké le post
 exports.addLike = async (req, res, next) => {
   try {
-    const {postId} = req.params;
+    const postId = req.params.id;
     const userId = req.user.id;
     const addLike = await prisma.likes.create({
       data: {
@@ -29,7 +29,7 @@ exports.addLike = async (req, res, next) => {
 };
 
 //Post liké
-exports.isLike = async (req, res, nex) => {
+exports.isLike = async (req, res, next) => {
   try {
     const id = req.user.id;
     const postId = req.params.postId;
@@ -53,10 +53,12 @@ exports.isLike = async (req, res, nex) => {
 //Supprimer like
 exports.deleteLike = async (req, res, next) => {
   try {
-    let id = req.params.id;
+    const userId = req.user.id;
+    const postId = req.params.id;
     const deleteLike = await prisma.likes.delete({
       where: {
-        id: id,
+        userId: userId,
+        postId: postId,
       },
     });
     res.status(200).json({

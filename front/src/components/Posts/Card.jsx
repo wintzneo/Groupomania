@@ -10,7 +10,7 @@ const Card = ({
   id,
   refetch,
   updatePost,
-  likes = [],
+  likes,
   user,
   title,
   image,
@@ -66,11 +66,6 @@ const Card = ({
       image,
       id,
     }
-    await axios.get(`http://localhost:4200/api/posts/${id}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
     updatePost(data)
   }
 

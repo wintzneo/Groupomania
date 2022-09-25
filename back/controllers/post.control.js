@@ -51,6 +51,7 @@ exports.updatePost = async (req, res, next) => {
       },
     },
   });
+  console.log("la valeur du post récupérer est :", post);
   if (!post) {
     return res.status(404).json({
       message: "not found",
@@ -58,6 +59,7 @@ exports.updatePost = async (req, res, next) => {
   }
   if (post.userId === req.user.id || req.user.isAdmin === true) {
     try {
+      console.log("la valeur de body est :", req.body);
       const userId = req.user.id;
       const data = {title: req.body.title, content: req.body.content, user: {
         connect: { id: userId },

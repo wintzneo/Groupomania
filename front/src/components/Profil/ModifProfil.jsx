@@ -36,7 +36,7 @@ const EditMyProfile = () => {
   //Supprimer profil
   const handleDelete = async () => {
     const isConfirm = window.confirm(
-      'Êtes-vous sûrs de supprimer votre profil?'
+      'Êtes-vous sûrs de supprimer votre profil ?'
     )
     if (!isConfirm) {
       return

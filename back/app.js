@@ -13,6 +13,7 @@ const profileRoutes = require("./routes/profile.routes");
 app.use(cors())
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
 //Routes attendues
 app.use("/api/posts", postRoutes);

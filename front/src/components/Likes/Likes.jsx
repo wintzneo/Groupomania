@@ -3,16 +3,23 @@ import { AiFillHeart } from 'react-icons/ai'
 import axios from 'axios'
 
 const LikeButton = (item) => {
-  const [like, setLike] = useState(0),
-    [isLike, setIsLike] = useState(false),
+  const [like, setLike] = useState(1),
+    [isLike, setIsLike] = useState(-1),
     onLikeClick = async () => {
       setLike(like + (isLike ? -1 : 1))
       setIsLike(!isLike)
       LikePost()
     }
+  /* 
+  onDeleteLikeClick = async () => {
+    setLike(like + (isLike ? -1 : 1))
+    setIsLike(!isLike)
+    LikeDelete()
+  } */
+
   const postId = item.id
 
-  //Ajouter Like
+  //Ajouter un like
   const LikePost = useCallback(async () => {
     await axios.get(`http://localhost:4200/api/posts/${postId}`, {
       headers: {
@@ -31,14 +38,24 @@ const LikeButton = (item) => {
     }
   }, [postId])
 
-  /*   //Supprimer Like
-  const LikeDelete = async () => {
-    await axios.delete(`http://localhost:4200/api/posts/${postId}/likes`, {
+  //Supprimer Like
+  const LikeDelete = useCallback(async () => {
+    await axios.get(`http://localhost:4200/api/posts/${postId}`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     })
-  } */
+    try {
+      await axios.delete(`http://localhost:4200/api/posts/${postId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
+    } catch (error) {
+      alert('error')
+      console.log(error)
+    }
+  }, [postId])
 
   return (
     <>
@@ -53,26 +70,5 @@ const LikeButton = (item) => {
     </>
   )
 }
-
-/* const Likes = (post) => {
-  console.log(post)
-  // add like
-  const postId = post.id
-  const handleLike = useCallback(async (data) => {
-    await axios.post(`http://localhost:4200/api/posts/${postId}/likes`, data, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
-  }, [])
-  return (
-    <div className="like">
-      <p onClick={handleLike} className="icon-heart">
-        <AiFillHeart />
-      </p>
-      <p className="likes_length">{likes}</p>
-    </div>
-  )
-} */
 
 export default LikeButton

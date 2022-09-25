@@ -36,7 +36,7 @@ const ShowProfile = () => {
     <div>
       <div className="showProfilInfo">
         <div className="hello">
-          <h1>Votre profil </h1>
+          <h1>Profil </h1>
           <NavLink to="/modif" className="edit-profile">
             <AiFillSetting />
           </NavLink>
@@ -46,13 +46,13 @@ const ShowProfile = () => {
         </div>
         <div className="pseudo">
           <p>
-            Pseudo <br />
+            Nom d'utilisateur <br />
           </p>
           {username}
         </div>
         <div className="bio">
           <p>
-            Bio
+            Un mot sur vous
             <br />{' '}
           </p>
           {bio}

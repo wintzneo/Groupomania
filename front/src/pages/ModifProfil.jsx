@@ -1,6 +1,6 @@
 import React, { Suspense } from 'react'
 import { BiLoaderCircle } from 'react-icons/bi'
-import ModifProfile from '../components/Profil/ModifProfil'
+import ModifyProfile from '../components/Profil/ModifProfil'
 
 const EditProfile = () => {
   return (
@@ -13,7 +13,7 @@ const EditProfile = () => {
           </div>
         }
       >
-        <ModifProfile />
+        <ModifyProfile />
       </Suspense>
     </div>
   )
