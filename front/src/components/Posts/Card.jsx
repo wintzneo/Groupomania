@@ -10,7 +10,7 @@ const Card = ({
   id,
   refetch,
   updatePost,
-  likes,
+  likes = [],
   user,
   title,
   image,
@@ -67,6 +67,10 @@ const Card = ({
       id,
     }
     updatePost(data)
+    window.scrollTo({
+      top: 0,
+      behavior: 'smooth',
+    })
   }
 
   return (

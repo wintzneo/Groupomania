@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState, useRef } from 'react'
 import axios from 'axios'
 import Card from '../components/Posts/Card'
 import PostOnePost from '../components/Posts/Post'
@@ -8,12 +8,11 @@ import { BsFillArrowUpCircleFill } from 'react-icons/bs'
 const Home = () => {
   const [posts, setPosts] = useState([])
   const [update, setUpdate] = useState(false)
-  const [postData, setPostData] = useState({})
+  const [postData, setPostData] = useState(null)
 
   const updatePost = (data) => {
     setUpdate(true)
     setPostData(data)
-    console.log('Home', postData)
   }
 
   // boutton remonte page
@@ -40,7 +39,11 @@ const Home = () => {
   return (
     <div>
       {update ? (
-        <ModifyPost postData={postData} />
+        <ModifyPost
+          postData={postData}
+          setUpdate={setUpdate}
+          fetchPosts={fetchPosts}
+        />
       ) : (
         <PostOnePost refetch={fetchPosts} />
       )}

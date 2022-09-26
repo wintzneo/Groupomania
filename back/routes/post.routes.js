@@ -11,7 +11,7 @@ const likePost = require('./like.routes')
 router.post('/',auth, multer, post.create);
 
 //Modifer
-router.put('/:id',auth, post.updatePost);
+router.put('/:id',auth,multer, post.updatePost);
 
 //Lire/Récupérer
 router.get('/', auth, post.allPost)

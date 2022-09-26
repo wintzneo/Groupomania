@@ -19,7 +19,7 @@ const schema = yup.object({
     .required(),
 })
 
-const EditMyPost = ({ postData }) => {
+const EditMyPost = ({ postData, setUpdate, fetchPosts }) => {
   const inputFileRef = useRef()
   const {
     register,
@@ -27,22 +27,17 @@ const EditMyPost = ({ postData }) => {
     setError,
     formState: { errors },
   } = useForm({
+    defaultValues: { ...postData },
     resolver: yupResolver(schema),
   })
 
   const postId = postData.id
   const userId = postData.userId
-  const title = postData.title
-  const content = postData.content
-  console.log('user', userId, 'post', postId)
 
-  //Modifier un post
-  const handleModify = useCallback(async () => {
-    await axios.get(`http://localhost:4200/api/posts/${postId}`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem('token')}`,
-      },
-    })
+  //Modif un post
+  const handleModify = async (data) => {
+    const title = data.title
+    const content = data.content
 
     const file = inputFileRef.current.files[0]
     if (!file) {
@@ -55,18 +50,22 @@ const EditMyPost = ({ postData }) => {
     formData.append('image', file)
     formData.append('userId', userId)
 
-    console.log('data', title, content, file, userId)
     try {
-      await axios.put(`http://localhost:4200/api/posts/${postId}`, formData, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
+      await axios
+        .put(`http://localhost:4200/api/posts/${postId}`, formData, {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          },
+        })
+        .then((resp) => {
+          setUpdate(false)
+          fetchPosts()
+        })
     } catch (error) {
       alert('error')
       console.log(error)
     }
-  }, [title, content, userId, setError, postId])
+  }
 
   //Retourner à la création de post
   const handleReturn = async () => {
@@ -76,6 +75,8 @@ const EditMyPost = ({ postData }) => {
     if (!isConfirm) {
       return
     }
+    setUpdate(false)
+    fetchPosts()
   }
 
   return (

@@ -38,7 +38,7 @@ exports.create = async (req, res, next) => {
 
 
 //Modifier un post
-exports.updatePost = async (req, res, next) => {
+exports.updatePost = async (req, res) => {
   const post = await prisma.post.findUnique({
     where: {
       id: req.params.id,
@@ -51,7 +51,7 @@ exports.updatePost = async (req, res, next) => {
       },
     },
   });
-  console.log("la valeur du post récupérer est :", post);
+
   if (!post) {
     return res.status(404).json({
       message: "not found",
@@ -59,25 +59,29 @@ exports.updatePost = async (req, res, next) => {
   }
   if (post.userId === req.user.id || req.user.isAdmin === true) {
     try {
-      console.log("la valeur de body est :", req.body);
       const userId = req.user.id;
       const data = {title: req.body.title, content: req.body.content, user: {
         connect: { id: userId },
       }}
+      
       if(req.file) {
-        data.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+        post.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
       }
-      const post = await prisma.post.update({
+
+      const result = await prisma.post.update({
         where: {
           id: req.params.id,
         },
-        data
-      });
-      res.status(200).json({
-        status: true,
-        message: "Post updated !",
-        data: post,
-      });
+        data: {...data}
+       
+      }).then(()=>{
+        res.status(200).json({
+          status: true,
+          message: "Post updated !",
+          data: post,
+        });
+    }).catch(err => console.log('l erreur est : ', err));
+      
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
