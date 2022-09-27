@@ -1,12 +1,69 @@
-.like {
+.like-button-wrapper {
+  border: none;
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
-  .icon-heart {
-    margin-right: 0.5rem;
-    margin-bottom: 0.3rem;
+  padding: 14px 14px;
+  color: #EDF7F6;
+  font-size: 16px;
+  font-weight: 600;
+  background-color: transparent;
+
+
+  &:hover:not(.liked) {
+    svg {
+      color:  white;
+      transform: translateY(-2px) rotate(8deg);
+      #thumb-end {
+        transform: rotate(45deg) translate(5px, -45px);
+      }
+    }
   }
-  .likes_length {
-    margin-bottom: 0.5rem;
+
+  &.clicked {
+    &::before {
+      animation: click 300ms;
+    }
+  }
+
+  &.liked {
+    &::before {
+      background-color: $colorTer;
+    }
+    svg {
+      animation: hop 500ms;
+    }
+  }
+
+  .like-button {
+    display: flex;
+    align-items: center;
+    z-index: 1;
+    color: $colorPrim;
+    transform: translateX(3px);
+  }
+
+  svg {
+    width: 22px;
+    height: 22px;
+    margin-right: 8px;
+    transform: translateY(-2px);
+    transition: transform 0.2s;
+
+    #thumb-end {
+      transition: transform 0.2s;
+    }
+  }
+
+  .suffix {
+    opacity: 0;
+    transition: opacity 300ms, transform 300ms;
+    transform: translateX(15px);
+
+    &.liked {
+      opacity: 1;
+      transform: translateX(0);
+    }
   }
 }
