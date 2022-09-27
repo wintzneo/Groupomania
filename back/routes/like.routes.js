@@ -11,6 +11,6 @@ router.post('/', auth, likes.addLike)
 router.get('/', auth, likes.isLike)
 
 //Supprimer
-router.delete('/:id', auth, likes.deleteLike)
+router.delete('/', auth, likes.deleteLike)
 
 module.exports = router;

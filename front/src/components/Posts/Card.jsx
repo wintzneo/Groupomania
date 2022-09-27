@@ -10,7 +10,7 @@ const Card = ({
   id,
   refetch,
   updatePost,
-  likes = [],
+  likes,
   user,
   title,
   image,
