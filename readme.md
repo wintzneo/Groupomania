@@ -11,12 +11,13 @@ Septième projet du parcours "Développeur web" d'OpenClassroom.
 
 **Backend :**
 - Télécharger *NodeJS*
-- Créer un fichier `.env` pour remplir les variables d'environnements
+- Créer un fichier `.env` pour remplir les variables d'environnements avec le contenu du fichier txt
 - Se rendre dans le dossier `Backend`, installer Node et toute les dépendances avec `npm i`
-- Lancer le serveur avec `npm run dev`
+- Lancer la commande avec `npx prisma generate` pour générer les schemas
+- Lancer le serveur avec `nodemon server`
 - Utiliser `Ctrl+C` pour stopper le serveur
-- Utilisation du `PORT=3000`
+- Utilisation du `PORT=4200`
 
 **Frontend :**
 - Ouvrir un nouveau terminal et se rendre dans le dossier `Frontend`
-- Lancer React avec la commande `npm start`
+- Lancer React avec la commande `yarn start`
