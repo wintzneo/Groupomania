@@ -112,7 +112,7 @@ const Card = ({
             <p className="hour">{formatHourInput(takeHour)}</p>
           </div>
         </div>
-        {<Likes like={likes} id={id} userId={userId} />}
+        {<Likes likes={likes} id={id} userId={userId} />}
       </li>
     </>
   )

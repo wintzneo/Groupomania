@@ -3,7 +3,6 @@ const fs = require("fs");
 const { PrismaClient } = require("@prisma/client");
 const prisma = new PrismaClient();
 
-
 //Création d'un post
 exports.create = async (req, res, next) => {
   try {
@@ -14,12 +13,13 @@ exports.create = async (req, res, next) => {
       content,
       user: {
         connect: { id: userId },
-      }
+      },
     };
 
     if (req.file) {
-      data.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename
-        }`;
+      data.image = `${req.protocol}://${req.get("host")}/images/${
+        req.file.filename
+      }`;
     }
 
     const post = await prisma.post.create({
@@ -35,7 +35,6 @@ exports.create = async (req, res, next) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 //Modifier un post
 exports.updatePost = async (req, res) => {
@@ -60,33 +59,40 @@ exports.updatePost = async (req, res) => {
   if (post.userId === req.user.id || req.user.isAdmin === true) {
     try {
       const userId = req.user.id;
-      const data = {title: req.body.title, content: req.body.content, user: {
-        connect: { id: userId },
-      }}
-      
-      if(req.file) {
-        post.image = `${req.protocol}://${req.get("host")}/images/${req.file.filename}`;
+      const data = {
+        title: req.body.title,
+        content: req.body.content,
+        user: {
+          connect: { id: userId },
+        },
+      };
+
+      if (req.file) {
+        post.image = `${req.protocol}://${req.get("host")}/images/${
+          req.file.filename
+        }`;
       }
 
-      const result = await prisma.post.update({
-        where: {
-          id: req.params.id,
-        },
-        data: {...data}
-       
-      }).then(()=>{
-        res.status(200).json({
-          status: true,
-          message: "Post updated !",
-          data: post,
-        });
-    }).catch(err => console.log('l erreur est : ', err));
-      
+      const result = await prisma.post
+        .update({
+          where: {
+            id: req.params.id,
+          },
+          data: { ...data },
+        })
+        .then(() => {
+          res.status(200).json({
+            status: true,
+            message: "Post updated !",
+            data: post,
+          });
+        })
+        .catch((err) => console.log("l erreur est : ", err));
     } catch (error) {
       res.status(400).json({ message: error.message });
     }
-  };
-}
+  }
+};
 
 //Récupération de tout les postes
 exports.allPost = async (req, res, next) => {
@@ -107,8 +113,8 @@ exports.allPost = async (req, res, next) => {
             profile: {
               select: {
                 image: true,
-              }
-            }
+              },
+            },
           },
         },
       },
@@ -126,7 +132,6 @@ exports.allPost = async (req, res, next) => {
     res.status(400).json({ message: error.message });
   }
 };
-
 
 //Récupère un poste unique par l'id
 exports.onePost = async (req, res, next) => {
@@ -199,6 +204,40 @@ exports.delete = async (req, res, next) => {
       }
     });
   } else {
-    res.status(403).json({ message: "pas autorisé" })
+    res.status(403).json({ message: "pas autorisé" });
+  }
+};
+
+//Like Post
+exports.like = async (req, res, next) => {
+  try {
+    const post = await prisma.post
+      .findUnique({
+        where: {
+          id: req.params.id,
+        },
+        include: {
+          likes: true,
+        },
+      })
+      .then((post) => {
+        if (post.likes.indexOf(req.body.userId) == -1) {
+          post.likes.push(req.body.userId);
+        } else {
+          const likesIndex = post.likes.findIndex(
+            (user) => user === req.body.userId
+          );
+          post.likes.splice(likesIndex, 1);
+        }
+      })
+      .catch((err) => console.log("l erreur est : ", err));
+      res.status(200).json({
+      status: true,
+      message: "Requête émise",
+      data: post,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(400).json({ message: error.message });
   }
 };
