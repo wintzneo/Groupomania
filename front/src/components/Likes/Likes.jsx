@@ -3,7 +3,7 @@ import cn from 'classnames'
 import axios from 'axios'
 import { ReactComponent as Heart } from '../Likes/red-heart-icon.svg'
 
-const LikeButton = (item, user, id, likes) => {
+const LikeButton = (item, user, id, likes, refetch) => {
   const [liked, setLiked] = useState(null)
   const [clicked, setClicked] = useState(false)
 
@@ -17,17 +17,16 @@ const LikeButton = (item, user, id, likes) => {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
       })
-      await axios
-        .post(`http://localhost:4200/api/posts/${postId}/likes`, likes,{
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem('token')}`,
-          },
-        })
-        .then((resp) => {})
+      await axios.post(`http://localhost:4200/api/posts/${postId}/likes`, {
+        headers: {
+          Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+      })
     } catch (error) {
       alert('error')
       console.log(error)
     }
+    refetch()
   }
 
   return (
