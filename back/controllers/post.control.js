@@ -211,6 +211,7 @@ exports.delete = async (req, res, next) => {
 //Like Post
 exports.like = async (req, res, next) => {
   try {
+    console.log('req.body', req.body)
     const post = await prisma.post
       .findUnique({
         where: {
@@ -223,12 +224,26 @@ exports.like = async (req, res, next) => {
       .then((post) => {
         if (post.likes.indexOf(req.body.userId) == -1) {
           post.likes.push(req.body.userId);
+          console.log('if')
         } else {
           const likesIndex = post.likes.findIndex(
             (user) => user === req.body.userId
           );
           post.likes.splice(likesIndex, 1);
+          console.log('else')
         }
+        console.log('avant maj')
+        const update = prisma.post.update(
+          {
+            where: {
+              id: req.params.id,
+            },
+            data: { ...post },
+          }
+        )
+        .then((post) => {
+           console.log('tout s est bien enregistré')
+        })
       })
       .catch((err) => console.log("l erreur est : ", err));
       res.status(200).json({

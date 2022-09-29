@@ -1,23 +1,16 @@
-import React, { useEffect, useState, useCallback } from 'react'
+import React, { useState, useCallback } from 'react'
 import cn from 'classnames'
 import axios from 'axios'
 import { ReactComponent as Heart } from '../Likes/red-heart-icon.svg'
 
-const LikeButton = (item, user, id, likes, refetch) => {
+const LikeButton = (userId, id, likes) => {
   const [liked, setLiked] = useState(null)
   const [clicked, setClicked] = useState(false)
-
-  const postId = item.id
 
   //Post Like/Unlike
   const Like = async () => {
     try {
-      await axios.get(`http://localhost:4200/api/posts/${postId}`, {
-        headers: {
-          Authorization: `Bearer ${localStorage.getItem('token')}`,
-        },
-      })
-      await axios.post(`http://localhost:4200/api/posts/${postId}/likes`, {
+      await axios.post(`http://localhost:4200/api/posts/${id}/likes`, userId, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -26,7 +19,6 @@ const LikeButton = (item, user, id, likes, refetch) => {
       alert('error')
       console.log(error)
     }
-    refetch()
   }
 
   return (
